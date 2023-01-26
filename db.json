@@ -1,0 +1,83 @@
+{
+  "admin": [
+    {
+      "id": "user",
+      "user": [
+        {
+          "id": 1,
+          "activities": 5,
+          "birthDate": "01.02.1990",
+          "email": "string"
+        }
+      ]
+    }
+  ],
+  "user": [
+    {
+      "activities": 5,
+      "birthDate": "01.02.1990",
+      "email": "string",
+      "fullName": "string",
+      "gender": "MALE",
+      "id": 1,
+      "nickname": "string",
+      "reports": 0
+    },
+    {
+      "activities": 4,
+      "birthDate": "01.02.1990",
+      "email": "string",
+      "fullName": "string",
+      "gender": "MALE",
+      "id": 2,
+      "nickname": "string",
+      "reports": 0
+    },
+    {
+      "activities": 5,
+      "birthDate": "01.02.1990",
+      "email": "string",
+      "fullName": "string",
+      "gender": "MALE",
+      "id": 3,
+      "nickname": "string",
+      "reports": 0
+    },
+    {
+      "activities": 5,
+      "birthDate": "01.02.1990",
+      "email": "string",
+      "fullName": "string",
+      "gender": "MALE",
+      "id": 4,
+      "nickname": "string",
+      "reports": 0
+    }
+  ],
+  "activity": [
+    {
+      "created": 0,
+      "description": "string",
+      "id": 0,
+      "link": "https://ya.ru",
+      "location": {
+        "firstTitle": "string",
+        "latitude": 0,
+        "longitude": 0,
+        "nameTitle": "string",
+        "secondTitle": "string"
+      },
+      "onlineLocation": true,
+      "reportCount": 0
+    }
+  ],
+  "reports": [
+    {
+      "date": 0,
+      "nickname": "string",
+      "offense": "Scam",
+      "reporter": 0,
+      "target": 0
+    }
+  ]
+}

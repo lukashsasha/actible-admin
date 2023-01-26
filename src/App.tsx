@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Admin, Resource, ShowGuesser} from "react-admin";
+import {authProvider} from './AuthProvider';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
+import russianMessages from './i18n/ru';
+import englishMessages from 'ra-language-english';
+import userList from './UserList';
+import activitiesList from './ActivitiesList';
+import reportsList from './ReportsList';
+import MyLoginPage from "./Login/MyLoginPage";
+import {dataProviderTest} from "./DataProviderTest";
+
+
+const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+
+    return (
+        <Admin
+
+            dataProvider={dataProviderTest}
+            authProvider={authProvider}
+            loginPage={MyLoginPage}
+            i18nProvider={i18nProvider}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <Resource name="admin/user/list" {...userList} />
+            <Resource name="/admin/activity/list" {...activitiesList}/>
+            <Resource name="reports" {...reportsList}/>
+        </Admin>
+    );
 }
 
 export default App;
