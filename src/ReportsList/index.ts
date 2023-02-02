@@ -1,9 +1,9 @@
 import InvoiceIcon from '@mui/icons-material/LibraryBooks';
-import {ReportsList} from "./ReportsList";
+import ReportList from "./ReportsList";
 
 
 export default {
-    list: ReportsList,
+    list: ReportList,
     icon: InvoiceIcon,
     options: {label: "Жалобы"},
 };

@@ -19,6 +19,8 @@ const ActivitiesFilter = (props:any) => (
         <TextInput label="Поиск по ID и описанию" source="query" alwaysOn />
         <DateInput label="Создано ПОСЛЕ" source="createdAfter"/>
         <DateInput label="Создано ДО" source="createdBefore"/>
+        <NumberInput  label="Поиск по ID" source="userId"/>
+        <TextInput  label="Поиск по месту" source="location"/>
         <SelectInput label="Пол" source="gender" choices={[
             { id: 'MALE', name: 'Male' },
             { id: 'FEMALE', name: 'Female' },
@@ -34,22 +36,23 @@ export const ActivitiesList = () => {
     return (
         <List
             filters={<ActivitiesFilter/>}
+            perPage={25}
         >
             {isSmall ? (
                 <SimpleList
-                    primaryText={(record) => record.name}
-                    secondaryText={(record) => record.username}
-                    tertiaryText={(record) => record.email}
+                    primaryText={(record) => record.id}
+                    secondaryText={(record) => record.created}
+                    tertiaryText={(record) => record.reportCount}
                 />
             ) : (
-                <Datagrid rowClick="edit">
+                <Datagrid rowClick="show">
                     <TextField source="id"/>
-                    <DateField source="created"/>
+                    <DateField source="created" showTime/>
                     <TextField source="description" sortable={false}/>
                     <UrlField source="link"/>
-                    <TextField source="location.secondTitle" label="Location"/>
+                    <TextField source="location.firstTitle" label="Location"/>
                     <TextField source="reportCount"/>
-                    <TextField source="onlineLocation"/>
+                    <TextField source="onlineLocation" sortable={false}/>
                 </Datagrid>
             )}
         </List>

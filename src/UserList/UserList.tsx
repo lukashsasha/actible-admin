@@ -8,16 +8,14 @@ import {
     TextInput,
     NumberInput,
     SelectInput,
+    SearchInput
 }
     from "react-admin";
 import {UserFilterSidebar} from "./UserFilterSidebar";
 
-
-
-
 const UserFilter = (props:any) => (
-    <Filter {...props}>
-        <TextInput label="Поиск по имени и никнейму" source="query" alwaysOn />
+    <Filter {...props} >
+        <SearchInput placeholder="Поиск по имени и никнейму" source="query" alwaysOn />
         <NumberInput label="Минимальное число активностей" source="min_activities" />
         <NumberInput label="Максимальное число активностей" source="max_activities" />
         <NumberInput label="Минимальный возраст" source="min_age" />
@@ -39,7 +37,7 @@ export const UserList = () => {
     return (
         <List
             filters={<UserFilter/>}
-            aside={<UserFilterSidebar/>}
+            perPage={25}
         >
             {isSmall ? (
                 <SimpleList

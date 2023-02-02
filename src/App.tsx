@@ -1,5 +1,5 @@
 import React from 'react';
-import {Admin, Resource, ShowGuesser} from "react-admin";
+import {Admin, Resource, Layout} from "react-admin";
 import {authProvider} from './AuthProvider';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import russianMessages from './i18n/ru';
@@ -8,10 +8,14 @@ import userList from './UserList';
 import activitiesList from './ActivitiesList';
 import reportsList from './ReportsList';
 import MyLoginPage from "./Login/MyLoginPage";
-import {dataProviderTest} from "./DataProviderTest";
+import {dataProvider} from "./DataProvider";
+import {MyAppBar} from "./Layout/MyAppBar";
+
 
 
 const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
+const MyLayout = (props:any) => <Layout {...props} appBar={MyAppBar} />;
+
 
 
 function App() {
@@ -19,14 +23,15 @@ function App() {
     return (
         <Admin
 
-            dataProvider={dataProviderTest}
+            dataProvider={dataProvider}
             authProvider={authProvider}
             loginPage={MyLoginPage}
             i18nProvider={i18nProvider}
+            layout={MyLayout}
         >
             <Resource name="admin/user/list" {...userList} />
-            <Resource name="/admin/activity/list" {...activitiesList}/>
-            <Resource name="reports" {...reportsList}/>
+            <Resource name="admin/activity/list" {...activitiesList}/>
+            <Resource name="admin/reports" {...reportsList}/>
         </Admin>
     );
 }

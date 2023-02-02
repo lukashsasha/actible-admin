@@ -1,53 +1,123 @@
-import {fetchUtils,DataProvider} from "react-admin";
+import {fetchUtils, DataProvider, GetListResult} from 'react-admin';
 import {stringify} from "query-string";
 
 
 const apiUrl = 'https://actible.tk';
-const httpClient = fetchUtils.fetchJson;
 
-export const dataProvider:DataProvider = {
+const httpClient = (url: string, options: RequestInit = {}): Promise<any> => {
+    if (!options.headers) {
+        options.headers = new Headers({Accept: 'application/json'});
+    }
+    const token = localStorage.getItem('token');
+
+    // @ts-ignore
+    // options.headers.set('Authorization', `Bearer ${token}`);
+    // options.headers = { ...options.headers, Authorization : `Bearer ${token}` };
+    options.headers = new Headers(options.headers);
+    options.headers.append('Authorization', `Bearer ${token}`);
+
+    return fetchUtils.fetchJson(url, options);
+}
+
+export const dataProvider: DataProvider = {
     getList: (resource, params) => {
         const {page, perPage} = params.pagination;
         const {field, order} = params.sort;
-        const queryFilter = params.filter
+        const filter = params.filter
         const query = {
-            page: JSON.stringify([page, perPage]),
-            // range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
-            // filter: JSON.stringify(params.filter),
-            query: queryFilter.q,
+           //Pagination params
+            page: page,
+            num: perPage,
+            //Filter params
+            query: filter.query,
+            activitiesGTE: filter.min_activities,
+            activitiesLTE: filter.max_activities,
+            ageGTE: filter.min_age,
+            ageLTE: filter.max_age,
+            reportsGTE: filter.min_complaints,
+            reportsLTE: filter.max_complaints,
+            gender: filter.gender,
+            createdAfter: filter.createdAfter
+                ? new Date(filter.createdAfter).getTime()
+                : undefined,
+            createdBefore: filter.createdBefore
+                ? new Date(filter.createdBefore).getTime()
+                : undefined,
+            userId: filter.userId,
+            location: filter.location,
+            activity: filter.id,
+            //Sort params
             sortColumn: field.toUpperCase(),
-            sortOrder: order
-
+            sortOrder: order,
         };
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-        const options = {headers: new Headers()};
-        if (!options.headers) {
-            options.headers = new Headers({Accept: 'application/json'});
+        switch (field) {
+            case "location.firstTitle":
+                query.sortColumn = "LOCATION";
+                break;
+            case "reportCount":
+                query.sortColumn = "REPORTS";
+                break;
         }
-        const token = localStorage.getItem('token');
-        options.headers.set('Authorization', `Bearer ${token}`);
 
-        return httpClient(url, options).then(({headers, json}) => ({
-            data: json,
-            // total: parseInt(headers.get('content-range').split('/').pop(), 10),
-            total: 20
-        }));
+        switch (filter.status) {
+            case 'userReports':
+                resource = "admin/user/report/list"
+                break;
+            case 'activityReports':
+                resource = "admin/activity/report/list"
+                break;
+            case 'commentReports':
+                resource = "admin/activity/comment/report/list"
+                break;
+        }
+
+        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        return httpClient(url).then(({headers, json}) => {
+            localStorage.setItem('data', JSON.stringify(json));
+
+            json = json.map((item:object) => {
+                if (item.hasOwnProperty('id')) {
+                    return item;
+                } else {
+                    return { ...item, id: Math.random() };
+                }
+            });
+
+            return {
+                data: json,
+                total: parseInt(headers.get('content-range').split('/').pop(), 10),
+            };
+        });
+
     },
-
-    getOne: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`).then(({json}) => ({
-            data: json,
-        })),
-
+    getOne: (resource, params) => {
+        const id = params.id;
+        const query = {
+            page: 1
+        }
+        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        return httpClient(url).then(({json}) => {
+            const data = localStorage.getItem('data');
+            if (!data) {
+                return {
+                    data: null
+                };
+            }
+            return {
+                data: JSON.parse(data).find((item: any) => item.id === parseInt(id)),
+            };
+        });
+    },
     getMany: (resource, params) => {
         const query = {
             filter: JSON.stringify({id: params.ids}),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
-        return httpClient(url).then(({json}) => ({data: json}));
+        return httpClient(url).then(({json}) => ({
+            data: json,
+        }));
     },
-
     getManyReference: (resource, params) => {
         const {page, perPage} = params.pagination;
         const {field, order} = params.sort;
@@ -63,7 +133,7 @@ export const dataProvider:DataProvider = {
 
         return httpClient(url).then(({headers, json}) => ({
             data: json,
-            // total: parseInt(headers.get('content-range').split('/').pop(), 10),
+            total: parseInt(headers.get('content-range').split('/').pop(), 10),
         }));
     },
 
@@ -104,4 +174,6 @@ export const dataProvider:DataProvider = {
             method: 'DELETE',
         }).then(({json}) => ({data: json}));
     }
+
 };
+

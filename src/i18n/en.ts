@@ -9,7 +9,7 @@ const customEnglishMessages: TranslationMessages = {
         configuration: 'Configuration',
         language: 'Language',
         theme: {
-            name: 'Theme',
+            name: 'Layout',
             light: 'Light',
             dark: 'Dark',
         },

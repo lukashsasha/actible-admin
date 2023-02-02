@@ -1,11 +1,20 @@
 import { useParams } from 'react-router-dom';
-import { useGetOne, useGetList, useRedirect, Title, Loading, useListContext } from 'react-admin';
+import {
+    useGetOne,
+    useGetList,
+    useRedirect,
+    Title,
+    Loading,
+    useListContext,
+    useGetMany,
+    useRecordContext
+} from 'react-admin';
 import { Card, Stack, Typography } from '@mui/material';
 
 /**
  * Fetch a book from the API and display it
  */
-const BookShow = () => {
+const ShowUser = () => {
     const { id } = useParams(); // this component is rendered in the /books/:id path
     const redirect = useRedirect();
     const { data, isLoading } = useGetOne(
@@ -22,8 +31,8 @@ const BookShow = () => {
             <Card>
                 <Stack spacing={1}>
                     <div>
-                        <Typography variant="caption" display="block">Title</Typography>
-                        <Typography variant="body2">{data.title}</Typography>
+                        <Typography variant="caption" display="block">Name</Typography>
+                        <Typography variant="body2">{data.nickname}</Typography>
                     </div>
                     <div>
                         <Typography variant="caption" display="block">Publication Date</Typography>
@@ -35,4 +44,4 @@ const BookShow = () => {
     );
 };
 
-export default BookShow
+export default ShowUser
