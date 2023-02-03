@@ -1,6 +1,5 @@
 import {defaultTheme} from 'react-admin';
 import {ThemeOptions} from "@mui/material";
-import {Filter} from "react-admin";
 
 export const defaultDarkTheme: ThemeOptions = {
     ...defaultTheme,
@@ -19,7 +18,6 @@ export const defaultDarkTheme: ThemeOptions = {
         MuiTypography: {
             styleOverrides: {
                 h3: {color: "#90caf9"},
-
             }
         }
     }
@@ -28,6 +26,14 @@ export const defaultDarkTheme: ThemeOptions = {
 export const defaultLightTheme: ThemeOptions = {
     ...defaultTheme,
     components: {
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    fontWeight: "700",
+                    fontSize: "0.9rem"
+                }
+            }
+        },
         MuiTypography: {
             styleOverrides: {
                 h3: {color: "white"},
@@ -37,3 +43,4 @@ export const defaultLightTheme: ThemeOptions = {
     }
 
 };
+

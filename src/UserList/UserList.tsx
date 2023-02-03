@@ -8,7 +8,8 @@ import {
     TextInput,
     NumberInput,
     SelectInput,
-    SearchInput
+    SearchInput,
+    FunctionField
 }
     from "react-admin";
 import {UserFilterSidebar} from "./UserFilterSidebar";
@@ -50,13 +51,27 @@ export const UserList = () => {
 
                     <Datagrid rowClick='show'>
                         <TextField source="id" label="ID"/>
-                        <TextField source="nickname"/>
-                        <TextField source="fullName"/>
-                        <TextField source="gender"/>
-                        <EmailField source="email" sortable={false}/>
-                        <TextField source="activities"/>
-                        <TextField source="age"/>
-                        <TextField source="reports"/>
+                        <TextField source="nickname" label="Никнейм"/>
+                        <TextField source="fullName" label="ФИО"/>
+                        {/*<TextField source="gender" label="Пол"/>*/}
+                        <FunctionField source="gender"
+                                       label="Пол"
+                                       render={(render:any)=>{
+                            switch (render.gender) {
+                                case "MALE":
+                                    return "Мужской"
+                                case "FEMALE":
+                                    return "Женский"
+                                case "NON_BINARY":
+                                    return "Небинарный"
+                                case "UNKNOWN":
+                                    return "Неизвестный"
+                            }
+                        }}/>
+                        <EmailField source="email" sortable={false} label="Емейл"/>
+                        <TextField source="activities" label="Активности"/>
+                        <TextField source="age" label="Возраст"/>
+                        <TextField source="reports" label="Жалобы"/>
                         {/*<DeleteButton/>*/}
                         {/*<EditButton/>*/}
                     </Datagrid>

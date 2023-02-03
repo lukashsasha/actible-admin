@@ -10,12 +10,16 @@ import reportsList from './ReportsList';
 import MyLoginPage from "./Login/MyLoginPage";
 import {dataProvider} from "./DataProvider";
 import {MyAppBar} from "./Layout/MyAppBar";
-
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 
 const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
-const MyLayout = (props:any) => <Layout {...props} appBar={MyAppBar} />;
-
+const MyLayout = (props: any) => (
+    <>
+        <Layout {...props} appBar={MyAppBar}/>;
+        {/*<ReactQueryDevtools initialIsOpen={true} />*/}
+    </>
+)
 
 
 function App() {

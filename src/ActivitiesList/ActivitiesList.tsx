@@ -10,23 +10,26 @@ import {
     NumberInput,
     SelectInput,
     DateField,
-    DateInput
+    DateInput,
+    ArrayField,
+    SingleFieldList,
+    FunctionField
 } from "react-admin";
 
 
-const ActivitiesFilter = (props:any) => (
+const ActivitiesFilter = (props: any) => (
     <Filter {...props}>
-        <TextInput label="Поиск по ID и описанию" source="query" alwaysOn />
+        <TextInput label="Поиск по ID и описанию" source="query" alwaysOn/>
         <DateInput label="Создано ПОСЛЕ" source="createdAfter"/>
         <DateInput label="Создано ДО" source="createdBefore"/>
-        <NumberInput  label="Поиск по ID" source="userId"/>
-        <TextInput  label="Поиск по месту" source="location"/>
+        <NumberInput label="Поиск по ID" source="userId"/>
+        <TextInput label="Поиск по месту" source="location"/>
         <SelectInput label="Пол" source="gender" choices={[
-            { id: 'MALE', name: 'Male' },
-            { id: 'FEMALE', name: 'Female' },
-            { id: 'NON_BINARY', name: 'Non Binary' },
-            { id: 'UNKNOWN', name: 'Unknown' },
-        ]} />
+            {id: 'MALE', name: 'Male'},
+            {id: 'FEMALE', name: 'Female'},
+            {id: 'NON_BINARY', name: 'Non Binary'},
+            {id: 'UNKNOWN', name: 'Unknown'},
+        ]}/>
     </Filter>
 );
 
@@ -50,7 +53,7 @@ export const ActivitiesList = () => {
                     <DateField source="created" showTime/>
                     <TextField source="description" sortable={false}/>
                     <UrlField source="link"/>
-                    <TextField source="location.firstTitle" label="Location"/>
+                    <FunctionField label="Location" render={(record: any) => (record.location && `${record.location.firstTitle} ${record.location.secondTitle || ""}`)}/>
                     <TextField source="reportCount"/>
                     <TextField source="onlineLocation" sortable={false}/>
                 </Datagrid>
