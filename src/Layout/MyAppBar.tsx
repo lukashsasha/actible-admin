@@ -41,7 +41,6 @@ export const MyAppBar = (props: any) => {
                 lightTheme={defaultLightTheme}
                 darkTheme={defaultDarkTheme}
             />
-            {/*<span className={classes.spacer} />*/}
         </AppBar>
     )
 }

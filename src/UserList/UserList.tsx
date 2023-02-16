@@ -9,7 +9,9 @@ import {
     NumberInput,
     SelectInput,
     SearchInput,
-    FunctionField
+    FunctionField,
+    EditButton,
+    DeleteWithConfirmButton
 }
     from "react-admin";
 import {UserFilterSidebar} from "./UserFilterSidebar";
@@ -72,7 +74,7 @@ export const UserList = () => {
                         <TextField source="activities" label="Активности"/>
                         <TextField source="age" label="Возраст"/>
                         <TextField source="reports" label="Жалобы"/>
-                        {/*<DeleteButton/>*/}
+                        {/*<DeleteWithConfirmButton/>*/}
                         {/*<EditButton/>*/}
                     </Datagrid>
                 </>
